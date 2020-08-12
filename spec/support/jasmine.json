@@ -1,0 +1,12 @@
+{
+  "spec_dir": "*",
+  "spec_files": [
+    "**/*questionnaire.component.spec.ts",
+    "**/*questionnaire.service.spec.ts"
+  ],
+  "helpers": [
+    "helpers/**/*.js"
+  ],
+  "stopSpecOnExpectationFailure": false,
+  "random": true
+}

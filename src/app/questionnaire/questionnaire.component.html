@@ -1,0 +1,68 @@
+<!-- Questionnaire Form -->
+<div class="divBorder">
+    <label><h1>Please fill out the Questionnaire below:</h1></label>
+    <form name="questionnaireForm" *ngIf="questionnaireForm" [formGroup]="questionnaireForm" (ngSubmit)="onSubmit()">
+        <!-- ngFor to repeat questionnaire array -->
+        <span *ngFor="let question of questionnaire">
+            <!-- ngIf for if question includes '.' or '?' -->
+            <label *ngIf="question.linkId.includes('.')">
+                <span class="subQ">{{question.linkId}}. {{question.text}}</span>
+            </label>
+            <label *ngIf="!question.linkId.includes('.')">
+                <b *ngIf="question.text.includes('?')">{{question.linkId}}. {{question.text}}</b>
+                <b *ngIf="!question.text.includes('?')">{{question.linkId}}. {{question.text}}:</b>
+            </label>
+            <!-- ngSwitch for type property of question -->
+            <span [ngSwitch]="question.type">
+                <span *ngSwitchCase="'string'">
+                    <input type="text" formControlName="{{question.linkId}}"/>
+                </span>
+                <span *ngSwitchCase="'boolean'">
+                    <select formControlName="{{question.linkId}}">
+                        <option>
+                            Yes
+                        </option>
+                        <option>
+                            No
+                        </option>
+                    </select>
+                </span>
+                <span *ngSwitchCase="'date'">
+                    <input type="date" formControlName="{{question.linkId}}"/>
+                </span>
+            </span> 
+        </span>
+        <button type="submit" [disabled]="!questionnaireForm.valid">Submit</button>
+        <!-- Form validation error message -->
+        <span class="formValid" *ngIf="!questionnaireForm.valid">Form is not valid. Please correct errors.</span>
+    </form>
+</div>
+
+<!-- Display for Questionnaire Response -->
+<div class="divBorder" *ngIf="questionnaireResponse.item">
+    <label><h1>Questionnaire Results:</h1></label>
+    <!-- ngFor for array of questions within questionnaireResponse -->
+    <span *ngFor="let res of questionnaireResponse.item.item"> 
+        <!-- ngIf for if question includes '.' or '?' -->
+        <span *ngIf="res.linkId.includes('.')">
+            <label class="subQ">{{res.linkId}}. {{res.text}}</label>
+        </span>
+        <span *ngIf="!res.linkId.includes('.')">
+            <label>
+                <b *ngIf="res.text.includes('?')">{{res.linkId}}. {{res.text}}</b>
+                <b *ngIf="!res.text.includes('?')">{{res.linkId}}. {{res.text}}:</b>
+            </label>
+        </span>
+        <!-- ngSwitch for type property of question to display answer property of question -->
+        <span class="subQ" [ngSwitch]="res.type">
+            <p *ngSwitchCase="'string'" type="text" class="respBorder">{{res.answer}}</p>
+            <p *ngSwitchCase="'boolean'" type="text" class="respBorder">{{res.answer}}</p>
+            <p *ngSwitchCase="'date'" type="date" class="respBorder">{{res.answer}}</p>
+            <label *ngSwitchCase="'group'" type="text">
+                <span *ngFor="let gres of res.item">
+                    <p>{{gres.linkId}}. {{gres.text}}: <span class="respBorder">{{gres.answer}}</span></p>
+                </span>
+            </label>
+        </span>
+    </span>
+</div>
