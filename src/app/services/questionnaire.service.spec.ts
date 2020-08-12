@@ -1,24 +1,23 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { QuestionnaireService } from './questionnaire.service';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
 describe('QuestionnaireService', () => {
-  let service: QuestionnaireService;
 
   beforeEach(() => {
-    TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting());
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(QuestionnaireService);
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule], 
+      providers: [QuestionnaireService]
+    });
   });
 
   it('should be created', () => {
+    const service: QuestionnaireService = TestBed.get(QuestionnaireService);
     expect(service).toBeTruthy();
   });
 
-  it('responses should be an array', () => {
-    expect(service.getResponses()).toEqual(Array);
-  });
+  it('should have getQuestions function', () => {
+    const service: QuestionnaireService = TestBed.get(QuestionnaireService);
+    expect(service.getQuestions).toBeTruthy();
+   });
 });

@@ -1,19 +1,14 @@
-import "jasmine";
-
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { QuestionnaireComponent } from './questionnaire.component';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
 describe('QuestionnaireComponent', () => {
   let component: QuestionnaireComponent;
   let fixture: ComponentFixture<QuestionnaireComponent>;
 
   beforeEach(() => {
-    TestBed.resetTestEnvironment();
-    TestBed.initTestEnvironment(BrowserDynamicTestingModule,
-      platformBrowserDynamicTesting());
     TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule], 
       declarations: [ QuestionnaireComponent ]
     })
     .compileComponents();
@@ -29,15 +24,10 @@ describe('QuestionnaireComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should not be the string 'I am a Patient!'`, () => {
-    expect(component.patientData).not.toEqual('I am a Patient!');
-  });
-
-  it(`should be an array`, () => {
-    expect(component.questionnaire).toEqual(Array);
-  });
-
-  it(`should be an object`, () => {
-    expect(component.questionnaireResponse).toEqual(Object);
+  it('should render h1 tag', () => {
+    const fixture = TestBed.createComponent(QuestionnaireComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Please fill out the Questionnaire below:');
   });
 });
